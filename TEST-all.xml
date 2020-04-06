@@ -1,0 +1,40 @@
+<testsuites name="Mocha Tests">
+  <testsuite name="Perfecto Detox Sample" tests="9" errors="0" failures="0" skipped="0" timestamp="2020-04-06T06:49:34" time="76.539">
+    <testcase classname="Perfecto Detox Sample" name="should have question element visible" time="7.163">
+      <system-out><![CDATA[beforeEach
+]]></system-out>
+    </testcase>
+    <testcase classname="Perfecto Detox Sample" name="should have text input field visible" time="0.77">
+      <system-out><![CDATA[beforeEach
+]]></system-out>
+    </testcase>
+    <testcase classname="Perfecto Detox Sample" name="should be able to type text and new text should be visible" time="17.158">
+      <system-out><![CDATA[beforeEach
+]]></system-out>
+    </testcase>
+    <testcase classname="Perfecto Detox Sample" name="should say Buy 101 devices for wrong_answer_button1 element" time="0.72">
+      <system-out><![CDATA[beforeEach
+]]></system-out>
+    </testcase>
+    <testcase classname="Perfecto Detox Sample" name="should say Ask mom for help for wrong_answer_button2 element" time="0.703">
+      <system-out><![CDATA[beforeEach
+]]></system-out>
+    </testcase>
+    <testcase classname="Perfecto Detox Sample" name="should say Use Perfecto Cloud for correct_answer_button element" time="0.721">
+      <system-out><![CDATA[beforeEach
+]]></system-out>
+    </testcase>
+    <testcase classname="Perfecto Detox Sample" name="should say Wrong Answer after tapping Buy 101 devices" time="7.528">
+      <system-out><![CDATA[beforeEach
+]]></system-out>
+    </testcase>
+    <testcase classname="Perfecto Detox Sample" name="should say You are right after tapping Use Perfecto Cloud" time="8.55">
+      <system-out><![CDATA[beforeEach
+]]></system-out>
+    </testcase>
+    <testcase classname="Perfecto Detox Sample" name="should be able to see user name at correct answer screen" time="19.89">
+      <system-out><![CDATA[beforeEach
+]]></system-out>
+    </testcase>
+  </testsuite>
+</testsuites>
