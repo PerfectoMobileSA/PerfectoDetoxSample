@@ -27,7 +27,7 @@ Build project and run test locally in short
 -------------------- 
 
 
-	1. clone repo, go to detox/sample-react-native-perfecto -folder
+	1. clone repo, go to PerfectoDetoxSample -folder
 	
 	2. Install dependencies
  		- `npm install`
@@ -47,22 +47,16 @@ Build project and run test locally in short
 
 
 
-How to make `demo-react-native` project run on Perfecto cloud (Android)
+How to make `PerfectoDetoxSample` project run on Perfecto cloud (Android)
 -----------------------------------------------------
-
-modified content to add to vanilla project (`demo-react-native` example) is highlighted.
 
 
 **add to package.json:**
-
-mocha-jenkins-reporter:
-for test result xml creation.
 
 <pre>
 "devDependencies": {
     "detox": "^7.2.0",
     "mocha": "^4.0.1",
-    <b>"mocha-jenkins-reporter": "0.4.2"</b>
   },
 </pre>
 
@@ -112,14 +106,9 @@ address to connect the device (with sessionId):
           "sessionId": "test"
         },
         "type": "android.attached",
-        "name": "ADD_DEVICE_ID_HERE"
+        "name": ""
       }"</b>
 </pre>
-
-
-note:
-`"name": "ADD_DEVICE_ID_HERE"`
-Replace "ADD_DEVICE_ID_HERE" with the device ID capability from Perfecto Cloud.
 
 
 **e2e/mocha.opts:**
@@ -128,19 +117,21 @@ Replace "ADD_DEVICE_ID_HERE" with the device ID capability from Perfecto Cloud.
 --recursive
 --timeout 60000
 --bail
-<b>--reporter mocha-jenkins-reporter
---reporter-options junit_report_path=test-report.xml</b>
 </pre>
 
 `--bail` makes all tests to fail (not run) when a test fails, to continue running tests after a failure, remove it from mocha.opts.
 
 
-**run-tests.sh:**
-
-cloud expects to see this file included in test files, contents of it will replaced with "run-tests-android.sh" (use "zip-test-files-android.sh" script)
-
 **run-tests-android.sh:**
 
+Fetch device id and store it in a variable for future use.
+```
+adb devices
+
+UDID="$(adb devices | grep device | tr "\n" " " | awk '{print $5}')"
+export UDID
+echo "UDID: $UDID"
+```
 screenshots will be stored in project root/screenshots folder
 
 ```
@@ -158,13 +149,10 @@ launch detox server:
 <b>"${PWD}/node_modules/.bin/detox" run-server &</b>
 
 connect device to detox server port:
-<b>adb reverse tcp:8099 tcp:8099</b>
-
-pass device id to package.json:
-<b>sed -i.bu "s/ADD_DEVICE_ID_HERE/$UDID/"       package.json</b>
+<b>adb -s $UDID reverse tcp:8099 tcp:8099</b>
 
 run detox test:
-<b>"${PWD}/node_modules/.bin/detox" test --configuration android.device.release --loglevel verbose > detox.log 2>&1</b>
+<b>"${PWD}/node_modules/.bin/detox" test --configuration android.device.release -n $UDID </b>
 </pre>
 
 
@@ -176,51 +164,3 @@ if modifications to tests are made, project needs to be rebuilt with this comman
 (use `release` build, debug build needs "react-native packager" running at the machine and it is not configured in this sample project)
 
 
-How to create an Android cloud test run:
--------------------------------
-
-- use `"zip-test-files-android.sh"` script to create a test package to upload to Bitbar cloud
-
-- create "Appium Android server side" project (test does not use Appium, no detox type project yet available)
-
-- upload apk-file to the cloud project (apk can be whatever because this uploaded apk is a dummy apk just to make the cloud happy (the apk will be installed on the device so it must be a working apk but it is not used in testing))
-
-- upload `"android-test-files.zip"` zip-file created with "zip-test-files-android.sh" script to the cloud project
-
-
-
-How to make `demo-react-native` project run on Bitbar cloud (iOS)
------------------------------------------------------
-
-iOS runs will be simulator runs, not real device. Device name must be manually set in package.json:
-
-
-<pre>
-{
-      "ios.sim.release": {
-        "binaryPath": "ios/build/Build/Products/Release-iphonesimulator/sampleproject.app",
-        "build": "export RCT_NO_LAUNCH_PACKAGER=true && xcodebuild -project ios/sampleproject.xcodeproj -scheme sampleproject -configuration Release -sdk iphonesimula$
-        "type": "ios.simulator",
-         <b>"name": "iPhone 7 Plus"</b>
-      }
-</pre>
-
-
-when the project is built (release), app will be in this location:
-`ios/build/Build/Products/Release-iphonesimulator/sampleproject.app`
-
-if modifications to tests are made, project needs to be rebuilt with this command (locally):
-`"${PWD}/node_modules/.bin/detox" build --configuration ios.sim.release`
-(use `release` build, debug build needs "react-native packager" running at the machine and it is not configured in this sample project)
-
-
-How to create an iOS simulator cloud test run:
--------------------------------
-
-- use `"zip-test-files-ios.sh"` script to create a test package to upload to Bitbar cloud
-
-- create "Appium iOS server side" project (test does not use Appium, no detox type project yet available)
-
-- upload ipa-file to the cloud project (ipa can be whatever because this uploaded ipa is a dummy ipa just to make the cloud happy (the ipa will be installed on the device so it must be a working ipa but it is not used in testing))
-
-- upload `"ios-test-files.zip"` zip-file created with "zip-test-files-ios.sh" script to the cloud project
