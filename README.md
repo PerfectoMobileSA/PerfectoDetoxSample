@@ -19,7 +19,9 @@ source: https://github.com/wix/detox/blob/master/docs/Introduction.GettingStarte
 	2. brew install applesimutils
 
 	Install Detox command line tools (detox-cli)
-	1. npm install -g detox-cli
+	1. npm install -g detox
+	2. npm install -g detox-cli
+	3. npm install -g react-native
 
 
 
