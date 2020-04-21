@@ -57,7 +57,7 @@ adb -s $UDID uninstall com.sampleproject.test
 #
 #adb -s $UDID shell pm list packages -f | grep sampleproject
 #adb -s $UDID shell pm list instrumentation | grep sampleproject
-adb -s 8C7X1KBE1 reverse --remove-all
+adb -s $UDID reverse --remove-all
 echo "Test has been run $(date), exit status: '${scriptExitStatus}'"
 
 mv ./*.xml TEST-all.xml
