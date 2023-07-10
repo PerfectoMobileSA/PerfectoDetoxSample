@@ -8,7 +8,7 @@
   "dependencies": {
     "eslint": "^6.8.0",
     "react": "16.8.3",
-    "react-native": "0.59.9",
+    "react-native": "0.72.1",
     "watchman": "^1.0.0"
   },
   "devDependencies": {
